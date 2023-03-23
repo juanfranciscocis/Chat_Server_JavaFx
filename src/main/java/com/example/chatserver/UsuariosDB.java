@@ -28,7 +28,8 @@ public class UsuariosDB {
             while (resultSet.next()) {
                 String id = resultSet.getString("usuarioID");
                 Boolean conectado = resultSet.getBoolean("conexion");
-                usuariosObservableList.add(new Usuarios(id, conectado));
+                Integer puerto = resultSet.getInt("port");
+                usuariosObservableList.add(new Usuarios(id, conectado, puerto));
             }
             return usuariosObservableList;
 
@@ -51,7 +52,7 @@ public class UsuariosDB {
                 Connection connection = DriverManager.getConnection(
                         DATABASE_URL);
                 Statement statement = connection.createStatement();) {
-            statement.execute("INSERT INTO usuarios (usuarioID, conexion) VALUES ('" + id + "', false)");
+            statement.execute("INSERT INTO usuarios (usuarioID, conexion, port) VALUES ('" + id + "', false, 0)");
             new Alert(Alert.AlertType.INFORMATION, "Usuario creado").showAndWait();
         } catch (SQLException sqlException) {
             new Alert(Alert.AlertType.ERROR, "Error al crear usuario").showAndWait();
@@ -77,12 +78,12 @@ public class UsuariosDB {
         }
     }
 
-    void actualizarConexion(String id) {
+    void actualizarConexion(String id, int puerto) {
         try (
                 Connection connection = DriverManager.getConnection(
                         DATABASE_URL);
                 Statement statement = connection.createStatement();) {
-            statement.execute("UPDATE usuarios SET conexion = true WHERE usuarioID = '" + id + "'");
+            statement.execute("UPDATE usuarios SET conexion = true, port = " + puerto + " WHERE usuarioID = '" + id + "'");
         } catch (SQLException sqlException) {
             new Alert(Alert.AlertType.ERROR, "Error al actualizar conexion").showAndWait();
 

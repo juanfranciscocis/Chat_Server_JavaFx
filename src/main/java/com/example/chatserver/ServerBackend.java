@@ -1,8 +1,5 @@
 package com.example.chatserver;
 
-import javafx.collections.ObservableList;
-import javafx.scene.control.Alert;
-
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -58,12 +55,12 @@ public class ServerBackend {
                         socket.send(sendPacket);
 
                         //CLIENTE AUTENTICADO Y CONECTADO
-                        new UsuariosDB().actualizarConexion(mensaje[0]);
+                        new UsuariosDB().actualizarConexion(mensaje[0],receivePacket.getPort()); //TODO: ACTULIZAR TAMBIEN EL PUERTO EN EL QUE SE CONECTA EL USUARIO
 
                         //ENVIAR BASE DE DATOS DE USUARIO, PARA CADA USUARIO EN LA BASE DE DATOS ENVIO EL ID Y EL ESTADO DE CONEXION
                         String mensajeUsuarios= "";
                         for (Usuarios usuario : new UsuariosDB().obtenerUsuarios()) {
-                            mensajeUsuarios += usuario.getUsuarioID() + "/" + usuario.getConexion() + "-";
+                            mensajeUsuarios += usuario.getUsuarioID() + "/" + usuario.isConectado() + "-";
                         }
                         byte[] dataUsuarios = mensajeUsuarios.getBytes();
                         DatagramPacket sendPacketUsuarios = new DatagramPacket(dataUsuarios,

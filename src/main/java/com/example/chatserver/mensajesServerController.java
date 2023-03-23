@@ -20,6 +20,7 @@ public class mensajesServerController {
 
     public mensajesServerController(ObservableList<Usuarios> usuariosList){
         this.usuariosList = usuariosList;
+
     }
 
     @FXML
@@ -39,11 +40,14 @@ public class mensajesServerController {
         }
 
         try {
+
             TableColumn<Usuarios, String> usuarioID = new TableColumn<>("usuarioID");
             usuarioID.setCellValueFactory(new PropertyValueFactory<>("usuarioID"));
-            TableColumn<Usuarios, Boolean> conectado = new TableColumn<>("conexion");
-            conectado.setCellValueFactory(new PropertyValueFactory<>("conexion"));
-            mensajesTableView.getColumns().addAll(usuarioID,conectado);
+            TableColumn<Usuarios, Boolean> conectado = new TableColumn<>("conectado");
+            conectado.setCellValueFactory(new PropertyValueFactory<>("conectado"));
+            TableColumn<Usuarios, Integer> puerto = new TableColumn<>("puerto");
+            puerto.setCellValueFactory(new PropertyValueFactory<>("puerto"));
+            mensajesTableView.getColumns().addAll(usuarioID,conectado,puerto);
             mensajesTableView.setItems(usuariosList);
         } catch (Exception e) {
             System.out.println("No se pudo poblar la tabla");
