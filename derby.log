@@ -1,0 +1,13 @@
+----------------------------------------------------------------
+Thu Mar 23 14:42:33 ECT 2023:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.15.2.0 - (1873585): instance a816c00e-0187-0ffe-8d8a-000007cb0998 
+on database directory /Users/juancisneros/Development/chatServer/Usuarios with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@3af49f1c 
+Loaded from file:/Users/juancisneros/.gradle/caches/modules-2/files-2.1/org.apache.derby/derby/10.15.2.0/b64da6681994f33ba5783ffae55cdb44885b9e70/derby-10.15.2.0.jar
+java.vendor=Eclipse Adoptium
+java.runtime.version=17.0.6+10
+user.dir=/Users/juancisneros/Development/chatServer
+os.name=Mac OS X
+os.arch=x86_64
+os.version=13.2.1
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
