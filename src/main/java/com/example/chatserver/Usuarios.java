@@ -1,20 +1,25 @@
 package com.example.chatserver;
 
-public class ClienteConectado {
+public class Usuarios {
 
-    private String id;
-    private boolean conectado = false;
+    String usuarioID;
+    boolean conectado = false;
 
-    public ClienteConectado(String id){
-        this.id = id;
+    public Usuarios(String id, boolean conectado){
+        this.usuarioID = id;
+        this.conectado = conectado;
     }
 
-    public String getId(){
-        return id;
+    public String getUsuarioID(){
+        return usuarioID;
     }
 
-    public boolean getConectado(){
+    public boolean getConexion(){
         return conectado;
+    }
+
+    public void setUsuarioID(String id){
+        this.usuarioID = id;
     }
 
     public void setConectado(boolean conectado){
