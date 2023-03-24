@@ -33,16 +33,19 @@ public class chatServerGUIController{
     }
 
     @FXML
-    void crearUsuario(ActionEvent event) {
+    void crearUsuario(ActionEvent event) throws IOException {
 
         usuariosDB.agregarUsuario(crearEliminarTextField.getText());
+        ServerBackend.usuarioCreadoOEliminado();
+
         System.out.println("Agregado");
         new Alert(Alert.AlertType.INFORMATION, "Agregado");
     }
 
     @FXML
-    void eliminarUsuario(ActionEvent event) {
+    void eliminarUsuario(ActionEvent event) throws IOException {
         usuariosDB.eliminarUsuario(crearEliminarTextField.getText());
+        ServerBackend.usuarioCreadoOEliminado();
         System.out.println("Eliminado");
         new Alert(Alert.AlertType.INFORMATION, "Eliminado");
     }

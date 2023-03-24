@@ -61,22 +61,28 @@ public class UsuariosDB {
     }
 
     public void eliminarUsuario(String id) {
-
         if (id.isEmpty()) {
             new Alert(Alert.AlertType.ERROR, "Debe ingresar un ID").showAndWait();
             return;
         }
 
         try (
-                Connection connection = DriverManager.getConnection(
-                        DATABASE_URL);
-                Statement statement = connection.createStatement();) {
-            statement.execute("DELETE FROM usuarios WHERE usuariosID = '" + id + "'");
+                Connection connection = DriverManager.getConnection(DATABASE_URL);
+                PreparedStatement statement = connection.prepareStatement("DELETE FROM usuarios WHERE usuarioID = ? AND conexion = false")
+        ) {
+            statement.setString(1, id);
+            int rowsAffected = statement.executeUpdate();
+            if (rowsAffected == 0) {
+                new Alert(Alert.AlertType.WARNING, "El usuario con ID " + id + " no existe o está conectado").showAndWait();
+            } else {
+                new Alert(Alert.AlertType.INFORMATION, "Usuario eliminado exitosamente").showAndWait();
+            }
         } catch (SQLException sqlException) {
+            System.out.println(sqlException);
             new Alert(Alert.AlertType.ERROR, "Error al eliminar usuario").showAndWait();
-
         }
     }
+
 
     void actualizarConexion(String id, int puerto) {
         try (
@@ -116,5 +122,49 @@ public class UsuariosDB {
     }
 
 
+    public int obtenerPuerto(String s) {
+        try (
+                Connection connection = DriverManager.getConnection(
+                        DATABASE_URL);
+                Statement statement = connection.createStatement();
+                ResultSet resultSet = statement.executeQuery(
+                        "SELECT * FROM usuarios WHERE usuarioID = '" + s + "'")) {
 
+            if (resultSet.next()) {
+                System.out.println("PUERTO DE ENVIO ENCONTRADO");
+                return resultSet.getInt("port");
+            } else {
+                return 0;
+            }
+
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+
+        }
+
+        return 0;
+    }
+
+    public String obtenerIdConPuerto(int puerto){
+        try (
+                Connection connection = DriverManager.getConnection(
+                        DATABASE_URL);
+                Statement statement = connection.createStatement();
+                ResultSet resultSet = statement.executeQuery(
+                        "SELECT * FROM usuarios WHERE port = " + puerto)) {
+
+            if (resultSet.next()) {
+                System.out.println("ID CON PUERTO ENCONTRADO");
+                return resultSet.getString("usuarioID");
+            } else {
+                return null;
+            }
+
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+
+        }
+
+        return null;
+    }
 }

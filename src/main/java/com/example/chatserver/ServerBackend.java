@@ -1,13 +1,16 @@
 package com.example.chatserver;
 
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.SocketException;
+import java.net.*;
+import java.util.HashSet;
+import java.util.Set;
 
 public class ServerBackend {
     //DATA MEMBERS
-    private DatagramSocket socket;
+    private static DatagramSocket socket;
+
+    private static Set<Integer> conectedPorts = new HashSet<>();
+
 
     //CONSTRUCTOR
     public ServerBackend() {
@@ -55,7 +58,8 @@ public class ServerBackend {
                         socket.send(sendPacket);
 
                         //CLIENTE AUTENTICADO Y CONECTADO
-                        new UsuariosDB().actualizarConexion(mensaje[0],receivePacket.getPort()); //TODO: ACTULIZAR TAMBIEN EL PUERTO EN EL QUE SE CONECTA EL USUARIO
+                        new UsuariosDB().actualizarConexion(mensaje[0],receivePacket.getPort());
+                        conectedPorts.add(receivePacket.getPort());
 
                         //ENVIAR BASE DE DATOS DE USUARIO, PARA CADA USUARIO EN LA BASE DE DATOS ENVIO EL ID Y EL ESTADO DE CONEXION
                         String mensajeUsuarios= "";
@@ -67,6 +71,8 @@ public class ServerBackend {
                                 dataUsuarios.length, receivePacket.getAddress(), receivePacket.getPort());
                         socket.send(sendPacketUsuarios);
 
+                        usuarioCreadoOEliminado();
+
                     } else {
                         System.out.println("ID NO AUTENTICADO");
                         String mensajeAutenticado = "ERROR-NO AUTENTICADO, NO PUEDE ENVIAR MENSAJES";
@@ -75,15 +81,43 @@ public class ServerBackend {
                                 dataAutenticado.length, receivePacket.getAddress(), receivePacket.getPort());
                         socket.send(sendPacket);
                     }
+                    
+
+                } else if (mensaje[0].equals("MENSAJE")) {
+                    // EN MENSAJE[1] ESTA EL ID DEL USUARIO QUE ENVIA EL MENSAJE
+                    //BUSCAMOS EL PUERTO DEL USUARIO AL QUE SE LE VA A ENVIAR EL MENSAJE
+                    int puerto = new UsuariosDB().obtenerPuerto(mensaje[1]);
+                    //OBTENER EL PUERTO DESDE DONDE LLEGO EL MENSAJE
+                    int puertoOrigen = receivePacket.getPort();
+                    // EN MENSAJE[2] ESTA EL MENSAJE, CREAMOS UM STRING CON MENSAJE-ID ORIGEN - MENSAJE
+                    String mensajeAEnviar = "MENSAJE-" + new UsuariosDB().obtenerIdConPuerto(puertoOrigen) + "-" + mensaje[2];
+                    //ENVIAR EL MENSAJE AL PUERTO
+                    byte[] dataMensaje = mensajeAEnviar.getBytes();
+                    DatagramPacket sendPacketMensaje = new DatagramPacket(dataMensaje,
+                            dataMensaje.length, receivePacket.getAddress(), puerto);
+                    socket.send(sendPacketMensaje);
+                    System.out.println("MENSAJE ENVIADO CORRECTAMENTE");
                 }
-
-
 
 
             }
             catch (IOException ioException) {
                 ioException.printStackTrace();
             }
+        }
+    }
+
+    public static void usuarioCreadoOEliminado() throws IOException {
+        //ENVIAR BASE DE DATOS DE USUARIOS A TODOS LOS CLIENTES CONECTADOS
+        for (Integer puerto : conectedPorts) {
+            String mensajeUsuarios= "NUEVOS USUARIOS-";
+            for (Usuarios usuario : new UsuariosDB().obtenerUsuarios()) {
+                mensajeUsuarios += usuario.getUsuarioID() + "/" + usuario.isConectado() + "-";
+            }
+            byte[] dataUsuarios = mensajeUsuarios.getBytes();
+            DatagramPacket sendPacketUsuarios = new DatagramPacket(dataUsuarios,
+                    dataUsuarios.length, InetAddress.getLocalHost(), puerto);
+            socket.send(sendPacketUsuarios);
         }
     }
 

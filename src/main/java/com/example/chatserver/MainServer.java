@@ -14,7 +14,7 @@ public class MainServer extends Application {
     @Override
     public void start(Stage stage) throws IOException {
 
-
+        /*
         try (Connection connection = DriverManager.getConnection("jdbc:derby:Usuarios;create=true")){
             Statement statement = connection.createStatement();
             statement.execute("DROP TABLE usuarios");
@@ -22,6 +22,8 @@ public class MainServer extends Application {
         }catch (Exception e) {
             System.out.println("Tables already dropped (MAIN)");
         }
+
+         */
 
 
 
