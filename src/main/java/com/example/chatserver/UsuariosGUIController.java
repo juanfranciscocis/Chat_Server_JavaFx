@@ -8,7 +8,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-public class mensajesServerController {
+public class UsuariosGUIController {
 
     @FXML
     private Label mensajesLabel;
@@ -18,7 +18,7 @@ public class mensajesServerController {
 
     ObservableList<Usuarios> usuariosList;
 
-    public mensajesServerController(ObservableList<Usuarios> usuariosList){
+    public UsuariosGUIController(ObservableList<Usuarios> usuariosList){
         this.usuariosList = usuariosList;
 
     }

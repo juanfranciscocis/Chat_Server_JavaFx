@@ -61,9 +61,28 @@ public class UsuariosDB {
     }
 
     public void eliminarUsuario(String id) {
+
+
+
         if (id.isEmpty()) {
             new Alert(Alert.AlertType.ERROR, "Debe ingresar un ID").showAndWait();
             return;
+        }
+
+        //desconectar usuario
+        desconectarUsuario(id);
+
+
+        //eliminar todos los mensajes de ese usuario de la tabla mensajes
+        try (
+                Connection connection = DriverManager.getConnection(DATABASE_URL);
+                PreparedStatement statement = connection.prepareStatement("DELETE FROM mensajes WHERE enviadoPor = ? OR recibidoPor = ?")
+        ) {
+            statement.setString(1, id);
+            statement.setString(2, id);
+            statement.executeUpdate();
+        } catch (SQLException sqlException) {
+            System.out.println(sqlException);
         }
 
         try (
@@ -166,5 +185,18 @@ public class UsuariosDB {
         }
 
         return null;
+    }
+
+    void desconectarUsuario(String id){
+        try (
+                Connection connection = DriverManager.getConnection(
+                        DATABASE_URL);
+                Statement statement = connection.createStatement();) {
+            statement.execute("UPDATE usuarios SET conexion = false, port = 0 WHERE usuarioID = '" + id + "'");
+        } catch (SQLException sqlException) {
+            new Alert(Alert.AlertType.ERROR, "Error al actualizar conexion").showAndWait();
+
+        }
+
     }
 }

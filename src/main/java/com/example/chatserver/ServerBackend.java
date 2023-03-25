@@ -1,5 +1,7 @@
 package com.example.chatserver;
 
+import javafx.application.Platform;
+
 import java.io.IOException;
 import java.net.*;
 import java.util.HashSet;
@@ -73,6 +75,12 @@ public class ServerBackend {
 
                         usuarioCreadoOEliminado();
 
+                        new MensajesDB().agregarMensaje(new Mensajes(mensaje[0],"AUTENTICADO O CREADO","SERVER"));
+                        chatServerGUIController controller = MainServer.chatServerGUIController;
+                        Platform.runLater(() -> {
+                            controller.poblarLogsServer();
+                        });
+
                     } else {
                         System.out.println("ID NO AUTENTICADO");
                         String mensajeAutenticado = "ERROR-NO AUTENTICADO, NO PUEDE ENVIAR MENSAJES";
@@ -97,6 +105,20 @@ public class ServerBackend {
                             dataMensaje.length, receivePacket.getAddress(), puerto);
                     socket.send(sendPacketMensaje);
                     System.out.println("MENSAJE ENVIADO CORRECTAMENTE");
+                    //GUARDAMOS EL MENSAJE EN LA BASE DE DATOS
+                    new MensajesDB().agregarMensaje(new Mensajes(new UsuariosDB().obtenerIdConPuerto(puertoOrigen),mensaje[2],new UsuariosDB().obtenerIdConPuerto(puerto)));
+                    chatServerGUIController controller = MainServer.chatServerGUIController;
+                    Platform.runLater(() -> {
+                        controller.poblarLogsServer();
+                    });
+                }else if (mensaje[0].equals("DESCONECTAR")){
+                    //DESCONECTAR EL USUARIO DE LA BASE DE DATOS
+                    new UsuariosDB().desconectarUsuario(mensaje[1]);
+                    new MensajesDB().agregarMensaje(new Mensajes(mensaje[1],"DESCONECTADO","SERVER"));
+                    chatServerGUIController controller = MainServer.chatServerGUIController;
+                    Platform.runLater(() -> {
+                        controller.poblarLogsServer();
+                    });
                 }
 
 
@@ -120,6 +142,7 @@ public class ServerBackend {
             socket.send(sendPacketUsuarios);
         }
     }
+
 
 
     private void mensajesConsola(String mensaje){
