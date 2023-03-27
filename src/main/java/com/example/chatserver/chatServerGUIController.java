@@ -51,7 +51,7 @@ public class chatServerGUIController{
         ObservableList<Mensajes> mensajes = new MensajesDB().buscarParaEliminar(borrarMensajeTextField.getText());
         Stage stage = new Stage();
         FXMLLoader fxmlCoincheckerMenu = new FXMLLoader(MainServer.class.getResource("eliminarMensajesID.fxml"));
-        fxmlCoincheckerMenu.setController(new EliminarMensajesIDController(mensajes));
+        fxmlCoincheckerMenu.setController(new EliminarMensajesIDController(mensajes,borrarMensajeTextField.getText()));
         Scene scene = new Scene(fxmlCoincheckerMenu.load());
         stage.setTitle("LISTA DE USUARIOS");
         stage.setScene(scene);
@@ -158,6 +158,25 @@ public class chatServerGUIController{
     void listarMensajes(ActionEvent event) throws IOException {
 
         ObservableList<Mensajes> mensajes = new MensajesDB().mensajesPorEnviadoYRecibido(listarUsuarioTextField.getText(),listarDestinatarioTextField.getText());
+        Stage stage = new Stage();
+        FXMLLoader fxmlCoincheckerMenu = new FXMLLoader(MainServer.class.getResource("mensajesGUI.fxml"));
+        fxmlCoincheckerMenu.setController(new MensajesGUIController(mensajes));
+        Scene scene = new Scene(fxmlCoincheckerMenu.load());
+        stage.setTitle("LISTA DE USUARIOS");
+        stage.setScene(scene);
+        stage.show();
+
+    }
+
+
+
+    @FXML
+    void listarMensajesSolo(ActionEvent event) throws IOException {
+
+        System.out.println("listandoMensakes Solo");
+
+        ObservableList<Mensajes> mensajes = new MensajesDB().mensajesPorEnviadoYRecibido(listarUsuarioTextField.getText(),listarDestinatarioTextField.getText());
+        System.out.println(mensajes);
         Stage stage = new Stage();
         FXMLLoader fxmlCoincheckerMenu = new FXMLLoader(MainServer.class.getResource("mensajesGUI.fxml"));
         fxmlCoincheckerMenu.setController(new MensajesGUIController(mensajes));

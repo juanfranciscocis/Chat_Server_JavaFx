@@ -17,12 +17,16 @@ public class EliminarMensajesIDController {
     private TextField mensajeIDTextEdit;
 
     @FXML
-    private TableView<Mensajes> mensajesTableView;
+    public TableView<Mensajes> mensajesTableView;
 
-    ObservableList<Mensajes> mensajesList;
+    static ObservableList<Mensajes> mensajesList;
 
-    public EliminarMensajesIDController(ObservableList<Mensajes> mensajes) {
+    String id;
+
+    public EliminarMensajesIDController(ObservableList<Mensajes> mensajes, String id) {
         this.mensajesList = mensajes;
+        this.id = id;
+
     }
 
     @FXML
@@ -65,7 +69,16 @@ public class EliminarMensajesIDController {
         try {
             int mensajeID = Integer.parseInt(mensajeIDTextEdit.getText());
             new MensajesDB().eliminarMensaje(mensajeID);
-            new Alert(Alert.AlertType.INFORMATION, "Mensaje eliminado").showAndWait();
+
+            mensajesList = new MensajesDB().buscarParaEliminar(id);
+            System.out.println(mensajesList);
+            poblarTabla();
+
+
+            chatServerGUIController controller = MainServer.chatServerGUIController;
+            controller.poblarLogsServer();
+
+
 
         } catch (Exception e) {
             new Alert(Alert.AlertType.ERROR, "No se pudo eliminar el mensaje").showAndWait();
@@ -73,11 +86,6 @@ public class EliminarMensajesIDController {
 
     }
 
-    @FXML
-    void recargar(ActionEvent event) {
-        poblarTabla();
-
-    }
 
 
 

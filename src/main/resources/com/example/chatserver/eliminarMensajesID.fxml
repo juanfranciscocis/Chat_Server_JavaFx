@@ -7,7 +7,6 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <TableView fx:id="mensajesTableView" layoutX="14.0" layoutY="41.0" prefHeight="302.0" prefWidth="574.0">
@@ -18,7 +17,6 @@
       </TableView>
       <TextField fx:id="mensajeIDTextEdit" layoutX="14.0" layoutY="354.0" promptText="MENSAJE ID...." />
       <Button layoutX="195.0" layoutY="354.0" mnemonicParsing="false" onAction="#eliminarMensaje" text="ELIMINAR MENSJAE" />
-      <Label layoutX="14.0" layoutY="14.0" text="ELIMIN AR MENSAJES DEL ID:" />
-      <Button layoutX="347.0" layoutY="355.0" mnemonicParsing="false" onAction="#recargar" text="RECARGAR" />
+      <Label layoutX="14.0" layoutY="14.0" text="ELIMINAR MENSAJES DEL ID:" />
    </children>
 </AnchorPane>

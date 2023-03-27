@@ -76,6 +76,8 @@ public class MensajesDB {
     }
 
     public ObservableList<Mensajes> mensajesPorEnviadoYRecibido(String idEnviado, String idRecibido) {
+
+        //FROM ALL MESSAGES ONLY GET THE ONES SEND BY IDENVIADO AND RECEIVED BY IDRECIBIDO
         try (
                 Connection connection = DriverManager.getConnection(
                         DATABASE_URL);
@@ -87,16 +89,18 @@ public class MensajesDB {
 
             // Agregar cada registro a la lista observable de Faculty
             while (resultSet.next()) {
-                Integer id = resultSet.getInt("mensajeID");
+                Integer idMensaje = resultSet.getInt("mensajeID");
                 String enviadoPor = resultSet.getString("enviadoPor");
                 String mensaje = resultSet.getString("mensaje");
                 String recibidoPor = resultSet.getString("recibidoPor");
-                mensajesObservableList.add(new Mensajes(id, enviadoPor, mensaje, recibidoPor));
+                mensajesObservableList.add(new Mensajes(idMensaje, enviadoPor, mensaje, recibidoPor));
             }
+            System.out.println(mensajesObservableList);
             return mensajesObservableList;
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
 
     }
 

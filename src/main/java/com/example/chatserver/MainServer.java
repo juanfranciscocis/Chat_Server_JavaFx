@@ -1,6 +1,7 @@
 package com.example.chatserver;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -16,6 +17,8 @@ public class MainServer extends Application {
     static chatServerGUIController chatServerGUIController = new chatServerGUIController();
     @Override
     public void start(Stage stage) throws IOException {
+        //ALL USERS ARE DISCONECTED
+        new UsuariosDB().desconectarATodos();
 
     /*
         try (Connection connection = DriverManager.getConnection("jdbc:derby:Usuarios;create=true")){
@@ -28,19 +31,10 @@ public class MainServer extends Application {
         }
 
      */
-
-
-
-
-
-
-
-
-
         try (Connection connection = DriverManager.getConnection("jdbc:derby:Usuarios;create=true")){
             Statement statement = connection.createStatement();
-            statement.execute("CREATE TABLE usuarios (usuarioID VARCHAR(6) NOT NULL, conexion BOOLEAN NOT NULL, port INT NOT NULL ,PRIMARY KEY (usuarioID))");
-            statement.execute("CREATE TABLE mensajes (mensajeID INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1,INCREMENT BY 1), enviadoPor VARCHAR(6) NOT NULL, mensaje VARCHAR(500) NOT NULL, recibidoPor VARCHAR(6) NOT NULL, hora TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, confirmacion BOOLEAN NOT NULL DEFAULT TRUE, PRIMARY KEY (mensajeID))");
+            statement.execute("CREATE TABLE usuarios (usuarioID VARCHAR(100) NOT NULL, conexion BOOLEAN NOT NULL, port INT NOT NULL ,PRIMARY KEY (usuarioID))");
+            statement.execute("CREATE TABLE mensajes (mensajeID INT NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1,INCREMENT BY 1), enviadoPor VARCHAR(100) NOT NULL, mensaje VARCHAR(500) NOT NULL, recibidoPor VARCHAR(100) NOT NULL, hora TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, confirmacion BOOLEAN NOT NULL DEFAULT TRUE, PRIMARY KEY (mensajeID))");
             System.out.println("Table Usuario creado (MAIN)");
 
         }catch (Exception e) {
@@ -57,6 +51,20 @@ public class MainServer extends Application {
         stage.setScene(scene);
         stage.show();
     }
+
+
+    @Override
+    public void stop() {
+        // called when the app is about to exit
+        System.out.println("Closing app...");
+        new UsuariosDB().desconectarATodos();
+        //CERRAR APP Y TODOS LOS PROCESOS DE LA MISMA
+        Platform.exit();
+        System.exit(0);
+    }
+
+
+
 
     public static void main(String[] args) {
         launch();

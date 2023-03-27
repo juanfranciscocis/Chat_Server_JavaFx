@@ -7,14 +7,14 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="982.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <TextField fx:id="crearEliminarTextField" layoutX="33.0" layoutY="40.0" prefHeight="26.0" prefWidth="180.0" promptText="INGRESE ID ..." />
       <Button layoutX="36.0" layoutY="79.0" mnemonicParsing="false" onAction="#crearUsuario" text="CREAR" />
       <Button layoutX="140.0" layoutY="79.0" mnemonicParsing="false" onAction="#eliminarUsuario" text="ELIMINAR" />
       <Label layoutX="33.0" layoutY="14.0" text="USUARIOS" />
       <Label layoutX="236.0" layoutY="14.0" text="LOGS DEL SERVER" />
-      <Button layoutX="50.0" layoutY="227.0" mnemonicParsing="false" onAction="#listarMensajes" text="LISTAR MENSAJES" />
+      <Button layoutX="50.0" layoutY="227.0" mnemonicParsing="false" onAction="#listarMensajesSolo" text="LISTAR MENSAJES" />
       <TextField fx:id="listarUsuarioTextField" layoutX="33.0" layoutY="156.0" promptText="USUARIO ID..." />
       <TextField fx:id="listarDestinatarioTextField" layoutX="33.0" layoutY="187.0" promptText="DESTINATARIO ID..." />
       <Label layoutX="33.0" layoutY="131.0" text="LISTAR MENSAJES" />
@@ -22,7 +22,7 @@
       <Label layoutX="14.0" layoutY="269.0" text="BORRAR MENSAJES POR ID" />
       <Button layoutX="158.0" layoutY="293.0" mnemonicParsing="false" onAction="#buscarParaEliminar" text="BUSCAR " />
       <TextField fx:id="borrarMensajeTextField" layoutX="13.0" layoutY="294.0" prefHeight="26.0" prefWidth="136.0" promptText="USUARIO ID..." />
-      <TableView fx:id="logTableView" layoutX="236.0" layoutY="40.0" prefHeight="344.0" prefWidth="349.0">
+      <TableView fx:id="logTableView" layoutX="236.0" layoutY="40.0" prefHeight="344.0" prefWidth="721.0">
         <columns>
           <TableColumn prefWidth="75.0" text="C1" />
           <TableColumn prefWidth="75.0" text="C2" />

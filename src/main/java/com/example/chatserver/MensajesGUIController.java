@@ -37,7 +37,6 @@ public class MensajesGUIController{
         }
 
         try {
-            mensajesList = new MensajesDB().obtenerMensajes();
             TableColumn<Mensajes, Integer> mensajeID = new TableColumn<>("mensajeID");
             mensajeID.setCellValueFactory(new PropertyValueFactory<>("mensajeID"));
             TableColumn<Mensajes, String> enviadoPor = new TableColumn<>("enviadoPor");

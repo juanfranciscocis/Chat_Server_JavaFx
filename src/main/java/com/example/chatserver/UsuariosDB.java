@@ -199,4 +199,17 @@ public class UsuariosDB {
         }
 
     }
+
+
+    void desconectarATodos(){
+        try (
+            Connection connection = DriverManager.getConnection(
+                    DATABASE_URL);
+            Statement statement = connection.createStatement();){
+            statement.execute("UPDATE usuarios SET conexion = false, port=0");
+        }catch (SQLException sqlException) {
+            new Alert(Alert.AlertType.ERROR, "Error al actualizar conexion").showAndWait();
+
+        }
+    }
 }
