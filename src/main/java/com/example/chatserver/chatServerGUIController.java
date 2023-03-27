@@ -53,7 +53,7 @@ public class chatServerGUIController{
         FXMLLoader fxmlCoincheckerMenu = new FXMLLoader(MainServer.class.getResource("eliminarMensajesID.fxml"));
         fxmlCoincheckerMenu.setController(new EliminarMensajesIDController(mensajes,borrarMensajeTextField.getText()));
         Scene scene = new Scene(fxmlCoincheckerMenu.load());
-        stage.setTitle("LISTA DE USUARIOS");
+        stage.setTitle("BUSCAR PARA ELIMINAR");
         stage.setScene(scene);
         stage.show();
 
@@ -120,6 +120,7 @@ public class chatServerGUIController{
 
 
     void poblarLogsServer(){
+        System.out.println("Poblando logs");
         try {
             logTableView.getColumns().clear();
             logTableView.getItems().clear();
@@ -162,7 +163,7 @@ public class chatServerGUIController{
         FXMLLoader fxmlCoincheckerMenu = new FXMLLoader(MainServer.class.getResource("mensajesGUI.fxml"));
         fxmlCoincheckerMenu.setController(new MensajesGUIController(mensajes));
         Scene scene = new Scene(fxmlCoincheckerMenu.load());
-        stage.setTitle("LISTA DE USUARIOS");
+        stage.setTitle("LISTA DE MENSAJES");
         stage.setScene(scene);
         stage.show();
 
@@ -181,7 +182,7 @@ public class chatServerGUIController{
         FXMLLoader fxmlCoincheckerMenu = new FXMLLoader(MainServer.class.getResource("mensajesGUI.fxml"));
         fxmlCoincheckerMenu.setController(new MensajesGUIController(mensajes));
         Scene scene = new Scene(fxmlCoincheckerMenu.load());
-        stage.setTitle("LISTA DE USUARIOS");
+        stage.setTitle("LISTA DE MENSAJES POR ENVIADO Y RECIBIDO");
         stage.setScene(scene);
         stage.show();
 

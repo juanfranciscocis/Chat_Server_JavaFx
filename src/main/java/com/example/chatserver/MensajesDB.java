@@ -62,17 +62,37 @@ public class MensajesDB {
         }
     }
 
-    public void eliminarMensaje(int mensajeID) {
+    public Mensajes eliminarMensaje(int mensajeID) {
         try (
                 Connection connection = DriverManager.getConnection(
                         DATABASE_URL);
                 Statement statement = connection.createStatement();) {
+            ResultSet resultSet = statement.executeQuery("SELECT * FROM mensajes WHERE mensajeID = " + mensajeID);
+
+            Integer id = null;
+            String enviadoPor= null;;
+            String mensaje= null;;
+            String recibidoPor= null;;
+
+
+            while (resultSet.next()) {
+                id = resultSet.getInt("mensajeID");
+                enviadoPor = resultSet.getString("enviadoPor");
+                mensaje = resultSet.getString("mensaje");
+                recibidoPor = resultSet.getString("recibidoPor");
+            }
+
             statement.execute("DELETE FROM mensajes WHERE mensajeID = " + mensajeID);
+            System.out.println();
             new Alert(Alert.AlertType.INFORMATION, "Mensaje eliminado").showAndWait();
+            return new Mensajes(id, enviadoPor, mensaje, recibidoPor);
+
         } catch (SQLException sqlException) {
             new Alert(Alert.AlertType.ERROR, "Error al eliminar mensaje").showAndWait();
 
         }
+
+        return null;
     }
 
     public ObservableList<Mensajes> mensajesPorEnviadoYRecibido(String idEnviado, String idRecibido) {
@@ -128,6 +148,8 @@ public class MensajesDB {
         }
 
     }
+
+
 }
 
 

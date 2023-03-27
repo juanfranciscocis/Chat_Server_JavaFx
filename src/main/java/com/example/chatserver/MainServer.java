@@ -20,7 +20,7 @@ public class MainServer extends Application {
         //ALL USERS ARE DISCONECTED
         new UsuariosDB().desconectarATodos();
 
-    /*
+        /*
         try (Connection connection = DriverManager.getConnection("jdbc:derby:Usuarios;create=true")){
             Statement statement = connection.createStatement();
             statement.execute("DROP TABLE usuarios");
@@ -30,7 +30,9 @@ public class MainServer extends Application {
             System.out.println("Tables already dropped (MAIN)");
         }
 
-     */
+         */
+
+
         try (Connection connection = DriverManager.getConnection("jdbc:derby:Usuarios;create=true")){
             Statement statement = connection.createStatement();
             statement.execute("CREATE TABLE usuarios (usuarioID VARCHAR(100) NOT NULL, conexion BOOLEAN NOT NULL, port INT NOT NULL ,PRIMARY KEY (usuarioID))");
@@ -47,7 +49,7 @@ public class MainServer extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(MainServer.class.getResource("chatServerGUI.fxml"));
         fxmlLoader.setController(chatServerGUIController);
         Scene scene = new Scene(fxmlLoader.load());
-        stage.setTitle("Hello!");
+        stage.setTitle("CHAT SERVER");
         stage.setScene(scene);
         stage.show();
     }

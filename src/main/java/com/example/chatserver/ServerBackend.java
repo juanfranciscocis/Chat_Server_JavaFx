@@ -75,7 +75,7 @@ public class ServerBackend {
 
                         usuarioCreadoOEliminado();
 
-                        new MensajesDB().agregarMensaje(new Mensajes(mensaje[0],"AUTENTICADO O CREADO","SERVER"));
+                        new MensajesDB().agregarMensaje(new Mensajes(mensaje[0],"AUTENTICADO","SERVER"));
                         chatServerGUIController controller = MainServer.chatServerGUIController;
                         Platform.runLater(() -> {
                             controller.poblarLogsServer();
@@ -119,6 +119,12 @@ public class ServerBackend {
                     Platform.runLater(() -> {
                         controller.poblarLogsServer();
                     });
+
+                    //ENVIAR BASE DE DATOS DE USUARIOS A TODOS LOS CLIENTES CONECTADOS
+                    usuarioCreadoOEliminado();
+
+
+
                 }
 
 
@@ -140,6 +146,31 @@ public class ServerBackend {
             DatagramPacket sendPacketUsuarios = new DatagramPacket(dataUsuarios,
                     dataUsuarios.length, InetAddress.getLocalHost(), puerto);
             socket.send(sendPacketUsuarios);
+        }
+    }
+
+
+    public void eliminarMensaje(String mensaje, String idEnvio, String idRecepcion){
+        //ENVIAR MENSAJE "DESCONEXION-idEnvio->MENSAJE" A idEnvio y idRecepcion
+        try {
+            //ENVIAR MENSAJE A idEnvio
+            String mensajeAEnviar = "ELIMINADO-" +"TU>"+mensaje;
+            byte[] dataMensaje = mensajeAEnviar.getBytes();
+            DatagramPacket sendPacketMensaje = new DatagramPacket(dataMensaje,
+                    dataMensaje.length, InetAddress.getLocalHost(), new UsuariosDB().obtenerPuerto(idEnvio));
+            socket.send(sendPacketMensaje);
+
+            //ENVIAR MENSAJE A idRecepcion
+            System.out.println("PUERTO DE RECEPCION: "+new UsuariosDB().obtenerPuerto(idRecepcion));
+            int puertoRecepcion = new UsuariosDB().obtenerPuerto(idRecepcion);
+            String mensajeAEnviar2 = "ELIMINADO-" +idEnvio+">"+mensaje;
+            byte[] dataMensaje2 = mensajeAEnviar2.getBytes();
+            DatagramPacket sendPacketMensaje2 = new DatagramPacket(dataMensaje2,
+                    dataMensaje2.length, InetAddress.getLocalHost(),puertoRecepcion);
+            socket.send(sendPacketMensaje2);
+            System.out.println("MENSAJE DE ELIMINADO ENVIADO CORRECTAMENTE");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

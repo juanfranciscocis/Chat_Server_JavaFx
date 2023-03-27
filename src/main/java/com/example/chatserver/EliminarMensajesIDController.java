@@ -68,7 +68,17 @@ public class EliminarMensajesIDController {
     void eliminarMensaje(ActionEvent event) {
         try {
             int mensajeID = Integer.parseInt(mensajeIDTextEdit.getText());
-            new MensajesDB().eliminarMensaje(mensajeID);
+            Mensajes mensaje = new MensajesDB().eliminarMensaje(mensajeID);
+            System.out.println(mensaje.getMensaje());
+            System.out.println(mensaje.getEnviadoPor());
+            System.out.println(mensaje.getRecibidoPor());
+
+
+            ServerBackend server = MainServer.serverBackend;
+            server.eliminarMensaje(mensaje.getMensaje(), mensaje.getEnviadoPor(),mensaje.getRecibidoPor());
+
+
+
 
             mensajesList = new MensajesDB().buscarParaEliminar(id);
             System.out.println(mensajesList);
@@ -81,6 +91,7 @@ public class EliminarMensajesIDController {
 
 
         } catch (Exception e) {
+            e.printStackTrace();
             new Alert(Alert.AlertType.ERROR, "No se pudo eliminar el mensaje").showAndWait();
         }
 

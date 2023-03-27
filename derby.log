@@ -1,6 +1,6 @@
 ----------------------------------------------------------------
-Sun Mar 26 19:02:58 ECT 2023:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.15.2.0 - (1873585): instance a816c00e-0187-2060-0cb4-000007b579f0 
+Mon Mar 27 17:46:07 ECT 2023:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.15.2.0 - (1873585): instance a816c00e-0187-2540-0b31-000007b925e8 
 on database directory /Users/juancisneros/Development/chatServer/Usuarios with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@3af49f1c 
 Loaded from file:/usr/local/Cellar/openjdk/19.0.2/libexec/openjdk.jdk/Contents/Home/caches/modules-2/files-2.1/org.apache.derby/derby/10.15.2.0/b64da6681994f33ba5783ffae55cdb44885b9e70/derby-10.15.2.0.jar
 java.vendor=Eclipse Adoptium
